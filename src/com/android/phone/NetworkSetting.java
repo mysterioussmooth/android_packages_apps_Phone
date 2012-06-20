@@ -56,6 +56,11 @@ public class NetworkSetting extends PreferenceActivity
     private static final int EVENT_NETWORK_SCAN_COMPLETED = 100;
     private static final int EVENT_NETWORK_SELECTION_DONE = 200;
     private static final int EVENT_AUTO_SELECT_DONE = 300;
+    private static final int EVENT_SET_NETWORK_TYPE_2G = 400;
+    private static final int EVENT_SET_NETWORK_TYPE_3G = 500;
+    private static final int EVENT_SET_NETWORK_TYPE_AUTOMATIC = 600;
+    private static final int EVENT_RETURN_NETWORK_SELECTION_RESULT = 700;
+    public static final int EVENT_PARTNER_NETWORK_SCAN_DONE = 800;
 
     //dialog ids
     private static final int DIALOG_NETWORK_SELECTION = 100;
@@ -120,6 +125,21 @@ public class NetworkSetting extends PreferenceActivity
                         if (DBG) log("automatic network selection: succeeded!");
                         displayNetworkSelectionSucceeded();
                     }
+                    break;
+                case EVENT_SET_NETWORK_TYPE_2G:
+                    if (DBG) log("phone::NetworkSettings->Event Set Network Typ3 2G");
+                    break;
+                case EVENT_SET_NETWORK_TYPE_3G:
+                    if (DBG) log("phone::NetworkSettings->Event Set Network Type 3G");
+                    break;
+                case EVENT_SET_NETWORK_TYPE_AUTOMATIC:
+                    if (DBG) log("phone::NetworkSettings->Event Set Network Type Auto");
+                    break;
+                case EVENT_RETURN_NETWORK_SELECTION_RESULT:
+                    if (DBG) log("phone::NetworkSettings->Event Return Network Selection Result");
+                    break;
+                case EVENT_PARTNER_NETWORK_SCAN_DONE:
+                    if (DBG) log("phone::NetworkSettings->Event Partner Network Scan Done");
                     break;
             }
 
