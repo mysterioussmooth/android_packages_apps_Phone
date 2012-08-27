@@ -28,6 +28,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.ServiceManager;
+import android.os.SystemProperties;
+import android.provider.Settings;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.CellInfo;
 import android.telephony.ServiceState;
@@ -284,19 +286,22 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
 
     public void toggleLTE(boolean on) {
         int network = -1;
-        if (getLteOnCdmaMode() == Phone.LTE_ON_CDMA_TRUE) {
+        boolean usesQcLte = SystemProperties.getBoolean(
+                        "ro.config.qc_lte_network_modes", false);
+        if (usesQcLte) {
+            if (on) {
+                network = Phone.NT_MODE_LTE_CDMA_EVDO;
+            } else {
+                network = Phone.NT_MODE_CDMA;
+            }
+        } else {
             if (on) {
                 network = Phone.NT_MODE_GLOBAL;
             } else {
                 network = Phone.NT_MODE_CDMA;
             }
-        } else if (getLteOnGsmMode() != 0) {
-            if (on) {
-                network = Phone.NT_MODE_LTE_GSM_WCDMA;
-            } else {
-                network = Phone.NT_MODE_WCDMA_PREF;
-            }
         }
+
         mPhone.setPreferredNetworkType(network,
                 mMainThreadHandler.obtainMessage(CMD_TOGGLE_LTE));
         android.provider.Settings.Secure.putInt(mApp.getContentResolver(),
