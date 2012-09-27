@@ -171,6 +171,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final String BUTTON_DTMF_KEY        = "button_dtmf_settings";
     private static final String BUTTON_RETRY_KEY       = "button_auto_retry_key";
     private static final String BUTTON_TTY_KEY         = "button_tty_mode_key";
+    /* package */ static final String BUTTON_RING_DELAY_KEY = "button_ring_delay_key";
     private static final String BUTTON_HAC_KEY         = "button_hac_key";
     private static final String BUTTON_NOISE_SUPPRESSION_KEY = "button_noise_suppression_key";
 
@@ -185,6 +186,7 @@ public class CallFeaturesSetting extends PreferenceActivity
             "sip_call_options_wifi_only_key";
     private static final String SIP_SETTINGS_CATEGORY_KEY =
             "sip_settings_category_key";
+    private static final String BUTTON_EXIT_TO_HOMESCREEN_KEY = "button_exit_to_home_screen_key";
 
     private Intent mContactListIntent;
 
@@ -261,12 +263,15 @@ public class CallFeaturesSetting extends PreferenceActivity
     private ListPreference mButtonDTMF;
     private ListPreference mButtonTTY;
     private CheckBoxPreference mButtonNoiseSuppression;
+    private ListPreference mButtonRingDelay;
     private ListPreference mButtonSipCallOptions;
     private CheckBoxPreference mMwiNotification;
     private ListPreference mVoicemailProviders;
     private PreferenceScreen mVoicemailSettings;
     private ListPreference mVoicemailNotificationVibrateWhen;
     private SipSharedPreferences mSipSharedPreferences;
+
+    private CheckBoxPreference mButtonExitToHomeScreen;
 
     private class VoiceMailProvider {
         public VoiceMailProvider(String name, Intent intent) {
@@ -489,6 +494,8 @@ public class CallFeaturesSetting extends PreferenceActivity
             Settings.System.putInt(mPhone.getContext().getContentResolver(),
                     Settings.System.NOISE_SUPPRESSION, nsp);
             return true;
+        } else if (preference == mButtonRingDelay) {
+            return true;
         } else if (preference == mButtonAutoRetry) {
             android.provider.Settings.System.putInt(mPhone.getContext().getContentResolver(),
                     android.provider.Settings.System.CALL_AUTO_RETRY,
@@ -597,6 +604,9 @@ public class CallFeaturesSetting extends PreferenceActivity
             mVoicemailNotificationVibrateWhen.setValue((String) objValue);
             mVoicemailNotificationVibrateWhen.setSummary(
                     mVoicemailNotificationVibrateWhen.getEntry());
+        } else if (preference == mButtonRingDelay) {
+            mButtonRingDelay.setValue((String) objValue);
+            mButtonRingDelay.setSummary(mButtonRingDelay.getEntry());
         } else if (preference == mButtonSipCallOptions) {
             handleSipCallOptionsChange(objValue);
         }
@@ -1536,6 +1546,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         mButtonHAC = (CheckBoxPreference) findPreference(BUTTON_HAC_KEY);
         mButtonTTY = (ListPreference) findPreference(BUTTON_TTY_KEY);
         mButtonNoiseSuppression = (CheckBoxPreference) findPreference(BUTTON_NOISE_SUPPRESSION_KEY);
+        mButtonRingDelay = (ListPreference) findPreference(BUTTON_RING_DELAY_KEY);
+        mButtonExitToHomeScreen = (CheckBoxPreference) findPreference(BUTTON_EXIT_TO_HOMESCREEN_KEY);
         mVoicemailProviders = (ListPreference) findPreference(BUTTON_VOICEMAIL_PROVIDER_KEY);
         if (mVoicemailProviders != null) {
             mVoicemailProviders.setOnPreferenceChangeListener(this);
@@ -1605,6 +1617,15 @@ public class CallFeaturesSetting extends PreferenceActivity
             } else {
                 prefSet.removePreference(mButtonNoiseSuppression);
                 mButtonNoiseSuppression = null;
+            }
+        }
+
+        if (mButtonRingDelay != null) {
+            if (getResources().getBoolean(R.bool.ringdelay_enabled)) {
+                mButtonRingDelay.setOnPreferenceChangeListener(this);
+            } else {
+                prefSet.removePreference(mButtonRingDelay);
+                mButtonRingDelay = null;
             }
         }
 
@@ -1792,6 +1813,13 @@ public class CallFeaturesSetting extends PreferenceActivity
         if (mButtonNoiseSuppression != null) {
             int nsp = Settings.System.getInt(getContentResolver(), Settings.System.NOISE_SUPPRESSION, 1);
             mButtonNoiseSuppression.setChecked(nsp != 0);
+        }
+
+        if (mButtonRingDelay != null) {
+            CharSequence mPrefEntry = mButtonRingDelay.getEntry();
+            if (mPrefEntry != null) {
+                mButtonRingDelay.setSummary(mPrefEntry);
+            }
         }
 
         lookupRingtoneName();

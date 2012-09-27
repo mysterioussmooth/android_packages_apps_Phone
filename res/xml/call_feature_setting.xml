@@ -42,6 +42,11 @@
         android:title="@string/advanced_setting">
 
         <CheckBoxPreference
+            android:key="keep_proximity_sensor_on"
+            android:title="@string/keep_proximity_sensor_on"
+            android:persistent="true"
+            android:summary="@string/keep_proximity_sensor_on_sum"/>
+        <CheckBoxPreference
             android:key="button_vibrate_outgoing"
             android:title="@string/vibrate_outgoing"
             android:persistent="true" />
@@ -58,6 +63,10 @@
             android:title="@string/vibrate_45"
             android:persistent="true"
             android:summary="@string/vibrate_45_sum" />
+        <CheckBoxPreference
+            android:key="button_exit_to_home_screen_key"
+            android:title="@string/exit_to_home_screen_title"
+            android:persistent="true"/>
     </PreferenceCategory>
 
   <PreferenceCategory
@@ -163,6 +172,14 @@
         android:persistent="false"
         android:entries="@array/tty_mode_entries"
         android:entryValues="@array/tty_mode_values"/>
+
+    <ListPreference
+        android:key="button_ring_delay_key"
+        android:title="@string/ring_delay_title"
+        android:summary="@string/ring_delay_summary"
+        android:persistent="true"
+        android:entries="@array/ring_delay_entries"
+        android:entryValues="@array/ring_delay_values"/>
 
      <CheckBoxPreference
         android:key="button_hac_key"
