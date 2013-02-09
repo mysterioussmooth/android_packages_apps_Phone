@@ -420,23 +420,28 @@ public class PhoneUtils {
     static class PhoneSettings {
         static boolean vibOn45Secs(Context context) {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                      .getBoolean("button_vibrate_45", false);
+                    .getBoolean("button_vibrate_45", false);
         }
         static boolean vibHangup(Context context) {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                      .getBoolean("button_vibrate_hangup", false);
+                    .getBoolean("button_vibrate_hangup", false);
         }
         static boolean vibOutgoing(Context context) {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                      .getBoolean("button_vibrate_outgoing", false);
+                    .getBoolean("button_vibrate_outgoing", false);
         }
         static boolean vibCallWaiting(Context context) {
             return PreferenceManager.getDefaultSharedPreferences(context)
-                      .getBoolean("button_vibrate_call_waiting", false);
+                    .getBoolean("button_vibrate_call_waiting", false);
         }
         static boolean showInCallEvents(Context context) {
             return PreferenceManager.getDefaultSharedPreferences(context)
                       .getBoolean("button_show_ssn_key", false);
+        }
+        static int flipAction(Context context) {
+            String s = PreferenceManager.getDefaultSharedPreferences(context)
+                      .getString("flip_action", "0");
+            return Integer.parseInt(s);
         }
     }
 
@@ -811,6 +816,11 @@ public class PhoneUtils {
     }
 
     private static String toLogSafePhoneNumber(String number) {
+        // For unknown number, log empty string.
+        if (number == null) {
+            return "";
+        }
+
         if (VDBG) {
             // When VDBG is true we emit PII.
             return number;

@@ -645,8 +645,6 @@
     <string name="dtmf_tone_enable_title" msgid="827601042915852989">"Wähltastentöne"</string>
     <string name="preference_category_ringtone" msgid="9007490591910078324">"Klingelton"</string>
 
-    <!-- **** CYANOGENMOD EDITS START **** -->
-
     <!-- Dialer UI Settings -->
     <string name="dialer_ui_settings_title">Wähltasten</string>
     <string name="dialer_ui_settings_summary">Einstellungen für die Wähltasten</string>
@@ -665,7 +663,7 @@
 
     <!-- Show ssn label -->
     <string name="show_ssn_label">Ereignis-Benachrichtigung</string>
-    <string name="show_ssn_summary">Benachrichtigungen für verschiedene Anrufereignisse anzeigen</string>
+    <string name="show_ssn_summary">Benachrichtigungen für verschiedene Anrufereignisse, z.B. zu Weiterleitungsstatus, anzeigen</string>
 
     <!-- Change mobile network -->
     <string name="perm_change_mobile_network">Netzmodus wechseln (2G/3G)</string>
@@ -676,5 +674,4 @@
     <string name="national_roaming_enable">Bei nationalem Roaming mit Datendienst verbinden</string>
     <string name="national_roaming_disable">Bei nationalem Roaming mit Datendienst verbinden</string>
 
-    <!-- **** CYANOGENMOD EDITS END **** -->
 </resources>

@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import android.animation.LayoutTransition;
+import android.content.res.Configuration;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -227,9 +228,8 @@ public class CallCard extends LinearLayout
         mElapsedTime = (TextView) findViewById(R.id.elapsedTime);
 
         // Text colors
-        Resources res = getResources();
-        mTextColorDefault = res.getColor(R.color.incall_call_banner_text_color);
-        mTextColorCallTypeSip = res.getColor(R.color.incall_callTypeSip);
+        mTextColorDefault = getResources().getColor(R.color.incall_call_banner_text_color);
+        mTextColorCallTypeSip = getResources().getColor(R.color.incall_callTypeSip);
 
         // "Caller info" area, including photo / name / phone numbers / etc
         mPhoto = (ImageView) findViewById(R.id.photo);
@@ -335,7 +335,10 @@ public class CallCard extends LinearLayout
         int reservedVerticalSpace = mInCallScreen.getInCallTouchUi().getTouchUiHeight();
         ViewGroup.MarginLayoutParams callInfoLp =
                 (ViewGroup.MarginLayoutParams) mCallInfoContainer.getLayoutParams();
-        callInfoLp.bottomMargin = reservedVerticalSpace;  // Equivalent to setting
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            callInfoLp.rightMargin = reservedVerticalSpace; // set margin on right side if in landscape rather than bottom
+        else
+            callInfoLp.bottomMargin = reservedVerticalSpace;  // Equivalent to setting
                                                           // android:layout_marginBottom in XML
         if (DBG) log("  ==> callInfoLp.bottomMargin: " + reservedVerticalSpace);
         mCallInfoContainer.setLayoutParams(callInfoLp);
